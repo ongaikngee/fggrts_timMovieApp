@@ -1,11 +1,10 @@
 import "./App.css";
-import MovieCard from "./components/MovieCard";
+import Home from "./pages/Home";
 
 function App() {
   return (
     <>
-      <MovieCard movie={{ title: "Mandolorian", url:"https://mockmind-api.uifaces.co/content/cartoon/32.jpg", released_date: "2024" }} />
-      <MovieCard movie={{ title: "Mandolorian2", url:"https://mockmind-api.uifaces.co/content/cartoon/22.jpg", released_date: "2024" }} />
+      <Home></Home>
     </>
   );
 }
