@@ -1,7 +1,10 @@
 import React from "react";
+import { useState } from "react";
 import MovieCard from "../components/MovieCard";
 
 const Home = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   const movies = [
     {
       id: 1,
@@ -22,8 +25,27 @@ const Home = () => {
       url: "https://image.tmdb.org/t/p/original/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
     },
   ];
+
+  const handleSearch = (e) => {
+    e.preventDefault()
+    console.log(searchQuery);
+    setSearchQuery("")
+  };
   return (
     <div className="home">
+      <form onSubmit={handleSearch} className="search-form">
+        <input
+          type="text"
+          placeholder="Seach for movies..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit" className="search-button">
+          Search
+        </button>
+      </form>
+      <h1>{searchQuery}</h1>
       <div className="movies-grid">
         {movies.map((movie) => (
           <MovieCard movie={movie} key={movie.id}></MovieCard>
