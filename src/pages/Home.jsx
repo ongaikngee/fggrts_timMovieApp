@@ -6,7 +6,7 @@ import { searchMovies, getPopularMovies } from "../services/api";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [movieList, setMovieList] = useState("");
+  const [movieList, setMovieList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,9 +27,23 @@ const Home = () => {
     loadPopularMovies();
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    console.log(searchQuery);
+    if (!searchQuery.trim()) return;
+    if (loading) return;
+
+    setLoading(true);
+    try {
+      const searchResults = await searchMovies(searchQuery);
+      setMovieList(searchResults);
+      setError(null);
+    } catch (e) {
+      setError("Failed to search");
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+
     setSearchQuery("");
   };
   return (
@@ -46,14 +60,19 @@ const Home = () => {
           Search
         </button>
       </form>
-      <div className="movies-grid">
-        {movieList.map(
-          (movie) =>
-            movie.title.toLowerCase().startsWith(searchQuery) && (
-              <MovieCard movie={movie} key={movie.id}></MovieCard>
-            ),
-        )}
-      </div>
+      {error && <div className="error-message">{error}</div>}
+      {loading ? (
+        <div className="loading">Loading...</div>
+      ) : (
+        <div className="movies-grid">
+          {movieList.map(
+            (movie) =>
+              movie.title.toLowerCase().startsWith(searchQuery) && (
+                <MovieCard movie={movie} key={movie.id}></MovieCard>
+              ),
+          )}
+        </div>
+      )}
     </div>
   );
 };
