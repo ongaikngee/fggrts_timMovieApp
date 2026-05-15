@@ -1,5 +1,5 @@
 import React from 'react'
-import "../css/favorites.css"
+import "../css/Favorites.css"
 
 const Favourites = () => {
   return (
