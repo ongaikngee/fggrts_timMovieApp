@@ -48,6 +48,7 @@ const Home = () => {
       <h1>{searchQuery}</h1>
       <div className="movies-grid">
         {movies.map((movie) => (
+          movie.title.toLowerCase().startsWith(searchQuery) &&
           <MovieCard movie={movie} key={movie.id}></MovieCard>
         ))}
       </div>
